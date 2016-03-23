@@ -12,9 +12,9 @@ function inconsistentRead(filename, callback) {
   }
 }
 
-function createFIleReader(filename) {
+function createFileReader(filename) {
   var listeners = [];
-  inconsistenRead(filename, function(value) {
+  inconsistentRead(filename, function(value) {
     listeners.forEach(function(listener) {
       listener(value);
     });
@@ -26,4 +26,11 @@ function createFIleReader(filename) {
   };
 }
 
-var reader1 = createFIleReader('data.')
+var reader1 = createFileReader('data.txt');
+reader1.onDataReady(function(data) {
+  console.log('First call data: ' + data);
+  var reader2 = createFileReader('data.txt');
+  reader2.onDataReady(function(data) {
+    console.log('Second call data: ' + data);
+  });
+});
