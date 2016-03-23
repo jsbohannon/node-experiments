@@ -1,20 +1,18 @@
 var fs = require('fs');
 var cache = {};
 
-function inconsistentRead(filename, callback) {
+function consistentRead(filename) {
   if (cache[filename]) {
-    callback(cache[filename]);
+    return cache[filename];
   } else {
-    fs.readFile(filename, 'utf8', function(err, data) {
-      cache[filename] = data;
-      callback(data);
-    });
+    cache[filename] = fs.readFileSync(filename, 'utf8');
+    return cache[filename];
   }
 }
 //what about this change?
 function createFileReader(filename) {
   var listeners = [];
-  inconsistentRead(filename, function(value) {
+  consistentRead(filename, function(value) {
     listeners.forEach(function(listener) {
       listener(value);
     });
