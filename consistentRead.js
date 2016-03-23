@@ -11,7 +11,7 @@ function inconsistentRead(filename, callback) {
     });
   }
 }
-
+//what about this change?
 function createFileReader(filename) {
   var listeners = [];
   inconsistentRead(filename, function(value) {
